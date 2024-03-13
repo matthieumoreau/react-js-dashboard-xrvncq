@@ -35,13 +35,41 @@ export const authConfig = {
   ],
   callbacks: {
     async jwt({ user, token }) {
-      if (user) {
-        token.user = user;
+
+if (user) {
+        token.accessToken = user.access_token;
+        token.refreshToken = user.refresh_token;
+        token.expires = Date.now() + 15 * 60 * 1000; // 15 minutes
+      }
+
+      // Check if access token has expired
+      if (token.expires && Date.now() > token.expires) {
+        try {
+          const res = await fetch('https://freddy.codesubmit.io/refresh', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token.refreshToken}`,
+            },
+          });
+          const data = await res.json();
+
+          console.log('data', data);
+
+          if (res.ok) {
+            token.accessToken = data.access_token;
+            token.expires = Date.now() + 15 * 60 * 1000; // 15 minutes
+          }
+        } catch (error) {
+          console.error('Error refreshing token:', error);
+        }
       }
       return token;
     },
     async session({ session, token }: any) {
-      session.user = token.user;
+      session.accessToken = token.accessToken;
+      session.refreshToken = token.refreshToken;
+      session.expires = token.expires;
       return session;
     },
   },
