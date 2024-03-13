@@ -22,7 +22,10 @@ export default function RootLayout({
         <body className={`${inter.className} flex flex-col`}>
           <div className="flex flex-wrap">
             <Sidebar />
+            <div className="flex-grow p-12 pt-5 gap-4"> 
             {children}
+            </div>
+            
           </div>
         </body>
       </html>

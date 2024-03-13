@@ -7,7 +7,13 @@ import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Bestsellers from "@/components/Bestsellers";
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -15,27 +21,52 @@ export default function Page() {
 
   useEffect(() => {
     if (session) {
-      fetch('https://freddy.codesubmit.io/dashboard', {
+      fetch("https://freddy.codesubmit.io/dashboard", {
         headers: {
-          'Authorization': `Bearer ${session.accessToken}`
-        }
+          Authorization: `Bearer ${session.accessToken}`,
+        },
       })
-      .then(response => response.json())
-      .then(data => {
-        setDashboardData(data.dashboard); // update state with fetched data
-      })
+        .then((response) => response.json())
+        .then((data) => {
+          setDashboardData(data.dashboard); // update state with fetched data
+        });
     }
-  }, [session])
+  }, [session]);
 
-  console.log('dashboardData', dashboardData);
+  console.log("dashboardData", dashboardData);
 
   return (
-    <main className="dashboard flex-grow">
-    <h1 className="text-2xl font-semibold">Dashboard</h1>
-    
-    
-    <Bestsellers data={dashboardData?.bestsellers} />
+    <main className="dashboard ">
+      <h1 className="text-4xl font-semibold">Dashboard</h1>
 
+      <div className="flex justify-between py-5">
+        <Card>
+          <CardHeader>
+            <CardTitle>Today</CardTitle>
+          </CardHeader>
+          <CardContent></CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Last week</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription></CardDescription>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Last month</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription></CardDescription>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Bestsellers data={dashboardData?.bestsellers} />
     </main>
   );
 }
