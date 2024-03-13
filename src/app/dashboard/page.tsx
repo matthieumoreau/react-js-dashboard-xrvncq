@@ -6,6 +6,7 @@ import LoginForm from "@/components/ui/LoginForm";
 import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Bestsellers from "@/components/Bestsellers";
 
 
 export default function Page() {
@@ -21,7 +22,6 @@ export default function Page() {
       })
       .then(response => response.json())
       .then(data => {
-        console.log('data', data);
         setDashboardData(data.dashboard); // update state with fetched data
       })
     }
@@ -30,8 +30,11 @@ export default function Page() {
   console.log('dashboardData', dashboardData);
 
   return (
-    <main className="flex">
-     
+    <main className="dashboard flex-grow">
+    <h1 className="text-2xl font-semibold">Dashboard</h1>
+    
+    
+    <Bestsellers data={dashboardData?.bestsellers} />
 
     </main>
   );

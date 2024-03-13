@@ -38,7 +38,7 @@ export const authConfig = {
       if (user) {
         token.accessToken = user.access_token;
         token.refreshToken = user.refresh_token;
-        token.expires = Date.now() + 15 * 60 * 1000; // 15 minutes
+        token.expires = Date.now() + 14 * 60 * 1000; // 14 minutes
       }
 
       // Check if access token has expired
@@ -53,11 +53,9 @@ export const authConfig = {
           });
           const data = await res.json();
 
-          console.log("data", data);
-
           if (res.ok) {
             token.accessToken = data.access_token;
-            token.expires = Date.now() + 15 * 60 * 1000; // 15 minutes
+            token.expires = Date.now() + 14 * 60 * 1000; // 14 minutes
           }
         } catch (error) {
           console.error("Error refreshing token:", error);
