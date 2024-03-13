@@ -13,14 +13,20 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
+
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
 export default function Bestsellers({ data }) {
-  console.log("data", data);
+    let CADollar = new Intl.NumberFormat('fr-CA', {
+        style: 'currency',
+        currency: 'CAD',
+    });
+
+    let CANumberFormat = new Intl.NumberFormat('fr-CA');
+
+
   return (
     <Card>
       <CardHeader><CardTitle>Bestsellers</CardTitle></CardHeader>
@@ -29,9 +35,9 @@ export default function Bestsellers({ data }) {
           <TableCaption>A list of your recent bestsellers products.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead>Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
+              <TableHead>Product Name</TableHead>
+              <TableHead># Units Sold</TableHead>
+              <TableHead>Revenue</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -41,8 +47,8 @@ export default function Bestsellers({ data }) {
                   <TableCell className="font-medium">
                     {value.product.name}
                   </TableCell>
-                  <TableCell>{value.revenue}</TableCell>
-                  <TableCell>{value.units}</TableCell>
+                  <TableCell>{CANumberFormat.format(value.units)}</TableCell>
+                  <TableCell>{CADollar.format(value.revenue)}</TableCell>
                 </TableRow>
               );
             })}
